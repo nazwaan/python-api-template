@@ -7,6 +7,8 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 RUN adduser --disabled-password --gecos '' userpy
 
+ENV PATH="/home/userpy/.local/bin:${PATH}"
+
 RUN mkdir -p /usr/src/app && chown userpy:userpy /usr/src/app
 RUN mkdir -p /home/userpy/.cache/pip && chown userpy:userpy /home/userpy/.cache/pip
 
