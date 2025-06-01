@@ -13,3 +13,7 @@ migrate-latest:
 migrate-refresh:
 	alembic downgrade base
 	alembic upgrade head
+	python -m api.db.seeds.seeder
+
+seed:
+	python -m api.db.seeds.seeder
