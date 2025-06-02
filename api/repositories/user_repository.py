@@ -1,4 +1,3 @@
-from sqlalchemy import select
 from db.models import User
 from repositories.base_repository import BaseRepository
 
@@ -7,7 +6,7 @@ class UserRepository(BaseRepository):
     super().__init__(
       db,
       User,
-      stmt = select(
+      allowed = (
         User.id,
         User.username,
         User.email,

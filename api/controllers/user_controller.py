@@ -12,14 +12,30 @@ def user_list(db: Session = Depends(get_db)) -> List[Dict[str, Any]]:
 
   return users
 
-def user_get(id: int) -> dict:
-  return {"message": f"Get user for id {id}"}
+def user_get(id: int, db: Session = Depends(get_db)) -> Dict[str, Any]:
+  user_repository = UserRepository(db)
+  users = user_repository.get_by_id(id)
 
-def user_create(data: UserCreateDto) -> dict:
-  return {"message": f"User '{data.model_dump(exclude_unset=True)}' created."}
+  return users
 
-def user_update(id: int, data: UserUpdateDto) -> dict:
-  return {"message": f"User '{id}' updated with '{data.model_dump(exclude_unset=True)}'"}
+def user_create(payload: UserCreateDto, db: Session = Depends(get_db)) -> Dict[str, Any]:
+  user_repository = UserRepository(db)
 
-def user_delete(id: int) -> dict:
-  return {"message": f"Delete user for id {id}"}
+  data = payload.dict(exclude_unset = True)
+  users = user_repository.create(data)
+
+  return users
+
+def user_update(id: int, payload: UserUpdateDto, db: Session = Depends(get_db)) -> Dict[str, Any]:
+  user_repository = UserRepository(db)
+
+  data = payload.dict(exclude_unset = True)
+  users = user_repository.update(id, data)
+
+  return users
+
+def user_delete(id: int, db: Session = Depends(get_db)) -> Dict[str, Any]:
+  user_repository = UserRepository(db)
+  users = user_repository.delete(id)
+
+  return users
