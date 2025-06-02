@@ -1,7 +1,16 @@
+from fastapi import Depends
+from typing import List, Dict, Any
+from sqlalchemy.orm import Session
+
+from db.get_db import get_db
+from repositories.user_repository import UserRepository
 from dto.user_dto import UserCreateDto, UserUpdateDto
 
-def user_list() -> dict:
-  return {"message": "list all user"}
+def user_list(db: Session = Depends(get_db)) -> List[Dict[str, Any]]:
+  user_repository = UserRepository(db)
+  users = user_repository.get_all()                                                                                                                                                                                                                                                                                                                                                                               
+
+  return users
 
 def user_get(id: int) -> dict:
   return {"message": f"Get user for id {id}"}
